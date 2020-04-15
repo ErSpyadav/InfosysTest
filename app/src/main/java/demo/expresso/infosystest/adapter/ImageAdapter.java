@@ -51,7 +51,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MovieViewHol
     public void onBindViewHolder(@NonNull final MovieViewHolder holder, int position) {
         holder.imageTitle.setText(imageList.get(position).getTitle());
         holder.description.setText("Description :\n" + imageList.get(position).getDescription());
-        Picasso.get().load(imageList.get(position).getImageHref()).into(holder.imageView);
+        Picasso.get().load(imageList.get(position).getImageHref()).placeholder(R.drawable.ic_empty_image).into(holder.imageView);
         if (position == imageList.size() - 1)
             holder.divider.setVisibility(View.GONE);
         else

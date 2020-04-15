@@ -1,6 +1,8 @@
 package demo.expresso.infosystest.view;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     ApiService apiService;
     private RecyclerView recyclerView;
     public ImageViewModel mViewModel;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        progressBar =(ProgressBar)findViewById(R.id.progressBar_cyclic);
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         refreshData();
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 refreshData(); // your code
+                progressBar.setVisibility(View.VISIBLE);
                 pullToRefresh.setRefreshing(false);
             }
         });
@@ -74,12 +79,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refreshData() {
+        progressBar.setVisibility(View.VISIBLE);
         mViewModel.getImageData(getApplicationContext());
         mViewModel.imageDataMutableLiveData.observe(this, new Observer<ImageData>() {
             @Override
             public void onChanged(ImageData imageData) {
                 MainActivity.this.getSupportActionBar().setTitle(imageData.getTitle());
                 recyclerView.setAdapter(new ImageAdapter(imageData.getRows()));
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
