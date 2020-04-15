@@ -1,7 +1,5 @@
 package demo.expresso.infosystest.model;
 
-import android.inputmethodservice.Keyboard;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
